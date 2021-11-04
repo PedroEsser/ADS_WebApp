@@ -9,4 +9,6 @@ app.listen(port, () => {
 
 app.get('/', (req, res) => {
     docker_client = res
+    res.send("Le test")
 })
+
