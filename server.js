@@ -10,8 +10,10 @@ app.listen(port, () => {
 
 app.get('/docker-connect', (req, res) => {
     docker_client = res
+    res.send("")
 })
 
 app.get('/', (req, res) => {
   docker_client?.send("U geh")
+  res.send("")
 })
