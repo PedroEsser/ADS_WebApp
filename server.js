@@ -14,6 +14,7 @@ app.get('/docker-connect', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  docker_client?.send("U geh")
-  res.send("")
+  //docker_client?.send("U geh")
+  //res.send("")
+  console.log(res)
 })
