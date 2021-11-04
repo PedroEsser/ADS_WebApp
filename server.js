@@ -8,8 +8,10 @@ app.listen(port, () => {
   console.log('ADS App listening on port ' + port)
 })
 
-app.get('/', (req, res) => {
+app.get('/docker-connect', (req, res) => {
     docker_client = res
-    res.send("Le test2")
 })
 
+app.get('/', (req, res) => {
+  docker_client.send("U geh")
+})
