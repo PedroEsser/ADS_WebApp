@@ -1,5 +1,0 @@
-
-
-function dvd_screensaver(){
-
-}
