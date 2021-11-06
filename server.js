@@ -8,9 +8,9 @@ app.listen(port, () => {
   console.log('ADS App listening on port ' + port)
 })
 
-app.get('/mandelbrot', (req, res) => {
+app.get('/docker-connect/:uri', (req, res) => {
   //docker_client_uri = req.params.uri
-  res.sendFile(path.join("/3dMandelbrot", '/index.html'));
+  res.send("")
 })
 
 app.get('/', (req, res) => {
