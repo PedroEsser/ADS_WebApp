@@ -13,8 +13,8 @@ app.get('/test', (req, res) => {
   docker = res
 })
 
-app.get('/', (req, res) => {
+app.get('/:data', (req, res) => {
   if (docker)
     docker.send("Badabim badabum")
-  res.send("")
+  res.send(req.params.data)
 })
