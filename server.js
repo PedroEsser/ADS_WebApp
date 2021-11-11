@@ -14,7 +14,15 @@ app.get('/test', (req, res) => {
 })
 
 app.get('/:data', (req, res) => {
-  if (docker)
-    docker.send(req.json())
+  if (docker){
+    docker.send("<a style =\" font-size:150px \" >" + req.params.data + "</a>")
+    docker = null
+  }
+    
   res.send("")
 })
+
+app.get('', (req, res) => {
+  res.send("")
+})
+
