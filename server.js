@@ -15,6 +15,6 @@ app.get('/test', (req, res) => {
 
 app.get('/:data', (req, res) => {
   if (docker)
-    docker.send("Badabim badabum")
-  res.send(req.params.data)
+    docker.send(req.json())
+  res.send("")
 })
