@@ -29,8 +29,7 @@ router.post("/docker_post",(request, response) => {
 
 app.use("/", router);
 
-app.all('*', (req, res) => {
-  console.log("All :" + req.params[0])
+app.get('*', (req, res) => {
   if (docker){
     docker.send(req.params[0])
     docker = null
@@ -39,4 +38,3 @@ app.all('*', (req, res) => {
     res.send("Docker not connected yet!")
   }
 })
-
