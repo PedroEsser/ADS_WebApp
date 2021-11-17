@@ -14,37 +14,44 @@ app.listen(port, () => {
   console.log('ADS App listening on port ' + port)
 })
 
-app.get('/docker_connect', (req, res) => {
+router.get('/docker_hello', (req, res) => {
   //if (/* is really our docker)*/)
-  console.log("Docker connect")
+  console.log("Docker Hello")
   docker = res
 })
 
-router.post("/docker_post",(request, response) => {
-  console.log("Docker post:")
-  let id = parseInt(request.body.id)
-  clients.get(id).send(request.body.data)
+router.post("/docker_post",(req, res) => {
+  let id = parseInt(req.body.id)
+  clients.get(id).send(req.body.data)
   clients.delete(id)
-  /*if(last_client){
-    last_client.send(request.body.data)
-    last_client = null
-  }*/
 });
 
 app.use("/", router);
 
-app.get('', handle_client)
+router.get('*', handle_client_get)
 
-app.get('/*', handle_client)
-
-function handle_client(req, res){
+function handle_client_get(req, res){
   if (docker){
     client_id += 1
-    let message = req.params[0] || " "
-    docker.send(client_id + "/" + message)
+    let url_tail = req.params[0] || ""  
+    docker.send(client_id + "|" + url_tail)
     docker = null
     clients.set(client_id, res)
   }else{
-    res.send("Docker not connected yet!")
+    res.send("Docker not connected!")
+  }
+}
+
+router.post('*', handle_client_post)
+
+function handle_client_post(req, res){
+  if (docker){
+    client_id += 1
+    let url_tail = req.params[0] || ""
+    docker.send(client_id + "|" + url_tail + "|" + JSON.stringify(req.body))  //req.body -> dados do POST
+    docker = null
+    clients.set(client_id, res)
+  }else{
+    res.send("Docker not connected!")
   }
 }
