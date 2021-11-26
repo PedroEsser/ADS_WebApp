@@ -17,7 +17,7 @@ app.listen(port, () => {
 
 router.get('/docker_hello', (req, res) => {
   docker_clients.push(res)
-  res.setTimeout(20000, () => {
+  res.setTimeout(25000, () => {
     res.send("Timed out")
     docker_clients.splice(docker_clients.indexOf(res), 1)
   })
