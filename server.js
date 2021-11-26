@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const bodyParser = require("body-parser");
-const { response } = require('express');
 const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -44,7 +43,6 @@ function handle_client_request(req, res){
       data:req.body             //req.body -> dados do POST
     }
     docker = docker_clients.pop()
-    //docker.send(JSON.stringify(response_obj))
     docker.send(response_obj)
     docker = null
     clients.set(client_id, res)
