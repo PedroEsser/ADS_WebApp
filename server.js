@@ -1,12 +1,13 @@
 const express = require('express')
 const app = express()
 const bodyParser = require("body-parser");
+const { response } = require('express');
 const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const port = process.env.PORT || 5000
-let docker
+let docker_clients = []
 let client_id = 0
 let clients = new Map()
 
@@ -15,12 +16,14 @@ app.listen(port, () => {
 })
 
 router.get('/docker_hello', (req, res) => {
-  //if (/* is really our docker)*/)
-  console.log("Docker Hello")
-  docker = res
+  docker_clients.push(res)
+  res.setTimeout(40000, () => {
+    res.send("Timed out")
+    docker_clients.splice(docker_clients.indexOf(res), 1)
+  })
 })
 
-router.post("/docker_post",(req, res) => {
+router.post("/docker_post", (req, res) => {
   let id = parseInt(req.body.id)
   clients.get(id).send(req.body.data)
   clients.delete(id)
@@ -28,13 +31,21 @@ router.post("/docker_post",(req, res) => {
 
 app.use("/", router);
 
-router.get('*', handle_client_get)
+router.get('*', handle_client_request)
 
-function handle_client_get(req, res){
-  if (docker){
+router.post('*', handle_client_request)
+
+function handle_client_request(req, res){
+  if (docker_clients.length > 0){
     client_id += 1
-    let url_tail = req.params[0] || ""  
-    docker.send(client_id + "#" + url_tail)
+    response_obj = {
+      client_id:client_id,
+      url:req.path,
+      data:req.body             //req.body -> dados do POST
+    }
+    docker = docker_clients.pop()
+    //docker.send(JSON.stringify(response_obj))
+    docker.send(response_obj)
     docker = null
     clients.set(client_id, res)
   }else{
@@ -42,16 +53,3 @@ function handle_client_get(req, res){
   }
 }
 
-router.post('*', handle_client_post)
-
-function handle_client_post(req, res){
-  if (docker){
-    client_id += 1
-    let url_tail = req.params[0] || ""
-    docker.send(client_id + "#" + url_tail + "#" + JSON.stringify(req.body))  //req.body -> dados do POST
-    docker = null
-    clients.set(client_id, res)
-  }else{
-    res.send("Docker not connected!")
-  }
-}
