@@ -15,7 +15,7 @@ app.listen(port, () => {
 })
 
 router.get('/docker_hello', (req, res) => {
-  docker_clients.push(res)
+  docker_clients.unshift(res)
   res.setTimeout(25000, () => {
     res.send("Timed out")
     docker_clients.splice(docker_clients.indexOf(res), 1)
@@ -26,7 +26,7 @@ router.post("/docker_post", (req, res) => {
   let id = parseInt(req.body.id)
   clients.get(id).send(req.body.data)
   clients.delete(id)
-  res.send("Post sended")
+  res.send("Post sent")
 });
 
 app.use("/", router);
@@ -37,6 +37,7 @@ router.post('*', handle_client_request)
 
 function handle_client_request(req, res){
   if (docker_clients.length > 0){
+    console.log(docker_clients.length)
     client_id += 1
     response_obj = {
       client_id:client_id,
