@@ -23,11 +23,9 @@ router.get('/docker_hello', (req, res) => {
 })
 
 router.get('/debug', (req, res) => {
-  let debug = {
-    docker_connections:docker_clients.length(),
-    current_id:client_id
-  }
-  res.send(JSON.stringify(debug))
+  let debug = "<h1>Active docker connections: " + docker_clients.length + "</h1><br>"
+  debug += "<h1>Current client id: " + client_id + "</h1><br>"
+  res.send(debug)
 })
 
 router.post("/docker_post", (req, res) => {
