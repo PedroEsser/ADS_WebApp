@@ -16,10 +16,18 @@ app.listen(port, () => {
 
 router.get('/docker_hello', (req, res) => {
   docker_clients.unshift(res)
-  res.setTimeout(25000, () => {
+  res.setTimeout(20000, () => {
     res.send("Timed out")
     docker_clients.splice(docker_clients.indexOf(res), 1)
   })
+})
+
+router.get('/debug', (req, res) => {
+  let debug = {
+    docker_connections:docker_clients.length(),
+    current_id:client_id
+  }
+  res.send(debug)
 })
 
 router.post("/docker_post", (req, res) => {
@@ -36,6 +44,8 @@ router.get('*', handle_client_request)
 router.post('*', handle_client_request)
 
 function handle_client_request(req, res){
+  console.log(req.path)
+  console.log(req.params)
   if (docker_clients.length > 0){
     console.log(docker_clients.length)
     client_id += 1
@@ -52,4 +62,3 @@ function handle_client_request(req, res){
     res.send("Docker not connected!")
   }
 }
-
