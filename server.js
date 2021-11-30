@@ -27,7 +27,7 @@ router.get('/debug', (req, res) => {
     docker_connections:docker_clients.length(),
     current_id:client_id
   }
-  res.send(debug)
+  res.send(JSON.stringify(debug))
 })
 
 router.post("/docker_post", (req, res) => {
