@@ -42,12 +42,13 @@ router.get('*', handle_client_request)
 router.post('*', handle_client_request)
 
 function handle_client_request(req, res){
+  console.log(req.originalUrl)
   if (docker_clients.length > 0){
     client_id += 1
     response_obj = {
       client_id:client_id,
-      path:req.path,
-      //headers:req.headers,
+      path:req.originalUrl,
+      headers:req.headers,
       body:req.body             //req.body -> dados do POST
     }
     docker = docker_clients.pop()
