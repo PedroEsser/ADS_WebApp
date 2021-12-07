@@ -12,7 +12,7 @@ let clients = new Map()
 let local_uri = "http://localhost:8080"
 let remote_uri = "https://ads-tunnel.herokuapp.com";//"http://localhost:5000";//
 
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log('ADS app listening at %s', remote_uri)
 })
 
@@ -48,8 +48,6 @@ router.post("/docker_post", (req, res) => {
 });
 
 router.get('/debug', (req, res) => {
-  var host = server.address().address
-  var port = server.address().port
   let debug = "<h1>Active docker connections: " + docker_clients.length + "</h1><br>"
   debug += "<h2>Current client id: " + client_id + "</h2><br>"
   debug += "<h2> Server at http://" + baseUrl + "</h2><br>"
