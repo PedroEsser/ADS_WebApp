@@ -46,6 +46,8 @@ router.post("/docker_post", (req, res) => {
 });
 
 router.get('/debug', (req, res) => {
+  var host = server.address().address
+  var port = server.address().port
   let debug = "<h1>Active docker connections: " + docker_clients.length + "</h1><br>"
   debug += "<h2>Current client id: " + client_id + "</h2><br>"
   debug += "<h2> Server at http://" + host + ":" + port + "</h2><br>"
