@@ -17,7 +17,6 @@ app.listen(port, () => {
 })
 
 router.get('/docker_hello', (req, res) => {
-  baseUrl = req.baseUrl
   docker_clients.unshift(res)
   res.setTimeout(20000, () => {
     res.send("Timed out")
@@ -50,7 +49,7 @@ router.post("/docker_post", (req, res) => {
 router.get('/debug', (req, res) => {
   let debug = "<h1>Active docker connections: " + docker_clients.length + "</h1><br>"
   debug += "<h2>Current client id: " + client_id + "</h2><br>"
-  debug += "<h2> Server at http://" + baseUrl + "</h2><br>"
+  debug += "<h2> Server at " + remote_uri + "</h2><br>"
   res.send(debug)
 })
 
