@@ -27,6 +27,7 @@ router.get('/docker_hello', (req, res) => {
 router.post("/docker_post", (req, res) => {
   let id = parseInt(req.body.id)
   let headers = JSON.parse(req.body.headers)
+  console.log(headers)
   let client_res = clients.get(id)
 
   for(property in headers)
@@ -40,7 +41,7 @@ router.post("/docker_post", (req, res) => {
     client_res.set(headers)
     client_res.send(req.body.data)
   }
-  console.log(headers)
+  //console.log(headers)
   
   clients.delete(id)
   res.send("Post sent")
