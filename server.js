@@ -33,10 +33,7 @@ router.post("/docker_post", (req, res) => {
     headers[property] = headers[property][0]
 
   if("Location" in headers) {
-    if(headers["Location"].includes(local_uri)){
-      headers["Location"] = headers["Location"].replace(local_uri, remote_uri)
-      
-    }
+    headers["Location"] = headers["Location"].replace(local_uri, remote_uri)
     client_res.set(headers)
     client_res.redirect(headers["Location"])
   }else{
