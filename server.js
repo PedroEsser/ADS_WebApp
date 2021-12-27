@@ -10,7 +10,7 @@ let docker_clients = []
 let client_id = 0
 let clients = new Map()
 let local_uri = "http://localhost:8080"
-let remote_uri = "https://ads-tunnel.herokuapp.com";//"http://localhost:5000";
+let remote_uri = "http://localhost:" + port;//"https://ads-tunnel.herokuapp.com";//
 
 app.listen(port, () => {
   console.log('ADS app listening at %s', remote_uri)
@@ -33,8 +33,10 @@ router.post("/docker_post", (req, res) => {
     headers[property] = headers[property][0]
 
   if("Location" in headers) {
-    headers["Location"] = headers["Location"].replace(local_uri, remote_uri)
-    client_res.set(headers)
+    if(headers["Location"].includes(local_uri)){
+      headers["Location"] = headers["Location"].replace(local_uri, remote_uri)
+      client_res.set(headers)
+    }
     client_res.redirect(headers["Location"])
   }else{
     client_res.set(headers)
