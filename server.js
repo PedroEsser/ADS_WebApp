@@ -10,7 +10,7 @@ let docker_clients = []
 let client_id = 0
 let clients = new Map()
 let local_uri = "http://localhost:8080"
-let remote_uri = "https://ads-tunnel.herokuapp.com" + port;
+let remote_uri = "https://ads-tunnel.herokuapp.com";
 
 app.listen(port, () => {
   console.log('ADS app listening at %s', remote_uri)
